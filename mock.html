@@ -1,0 +1,127 @@
+<html>
+
+<body>
+	<!--
+<form action="poc2" method="get">
+<Br/>whocares<input type="text" name="whocares"/>
+<input type="submit" value="get"/>
+</form>
+
+
+<form action="poc1" method="post">
+<Br/>whocares<input type="text" name="whocares"/>
+<input type="submit" value="post"/>
+</form>
+-->
+	<br>
+	<input type="text" id="bookid" placeholder="bookid"><span id="span">what happened!</span>
+	<br><br>
+	<input type="text" id="name" placeholder="bookname">
+	<br>
+	<br>
+	<input type="text" id="price" placeholder="price">
+	<br>
+	<br>
+	<button id="update"> Update books</button>
+
+
+</body>
+
+<script src="jquery-3.5.1.min.js"></script>
+<script>//our scrip will come here 
+
+
+
+	$(document).ready(function () {
+
+
+
+
+
+		$("#bookid").blur(function () {
+			console.log("inside blur ");
+			//alert("jquery works");
+
+			let input = $("#bookid").val();
+
+			let ajaxparameter = {
+
+
+
+				data: { bookid: input },
+				type: "get",
+				dataType: "json",
+				url: "http://localhost:8081/getbook",
+
+				success: function (output) {
+					console.log("success");
+					console.log(output);
+					$("#span").html("value shown successful");
+
+					console.log("success" + output.status);
+					$("#name").val(output.bookdetails.bookname);
+					$("#price").val(output.bookdetails.price);
+
+
+
+				},
+				error: function (e) {
+					alert('we have trouble ' + JSON.stringify(e));
+				}
+			};
+
+			$.ajax(ajaxparameter);
+
+
+		});
+
+
+		//console.log("no more sins");
+		$("#update").click(function () {
+
+
+			let input = {
+				bookid: $("#bookid").val(),
+				bookname: $("#name").val(),
+				bookprice: $("#price").val()
+			}
+
+			let ajaxparameter = {
+
+
+
+				data: input,
+				type: "get",
+				dataType: "text",
+				url: "http://localhost:8081/update",
+
+				success: function (output) {
+					console.log("success");
+					console.log(output);
+					$("#span").html("value updated success ");
+
+
+
+
+				},
+				error: function (e) {
+					alert('we have trouble ' + JSON.stringify(e));
+				}
+			};
+
+			$.ajax(ajaxparameter);
+
+
+
+		});
+
+
+
+
+	});
+
+
+</script>
+
+
+</html>
